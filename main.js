@@ -3,6 +3,8 @@ const app = express();
 const cors = require('cors');
 var bodyParser = require('body-parser');
 const router = require('./routes/router');
+const { mongoConnect } = require('./MongoDBConnect');
+mongoConnect()
 
 const port = 3000;
 

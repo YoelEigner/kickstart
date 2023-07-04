@@ -7,37 +7,39 @@ const router = express.Router();
 
 router.get('/tickets', async (req, res) => {
     try {
-        let products = await getTickets()
-        res.json(products);
+        let tickets = await getTickets()
+        res.json(tickets);
     } catch (error) {
         res.sendStatus(500)
     }
 });
-router.post('/filter/:title', async (req, res) => {
+router.post('/filter/:query/:page/:itemsPerPage', async (req, res) => {
     try {
-        let products = await filterByTitle(req.params.title)
-        res.json(products);
+        const { query, page, itemsPerPage } = req.params
+        let tickets = await filterByTitle(query, page, itemsPerPage)
+        res.json(tickets);
     } catch (error) {
         res.sendStatus(500)
     }
 });
-router.post('/searchall/:query', async (req, res) => {
+router.post('/searchall/:query/:page/:itemsPerPage', async (req, res) => {
     try {
-        let products = await filterAllFields(req.params.query)
-        res.json(products);
+        const { query, page, itemsPerPage } = req.params
+        let tickets = await filterAllFields(query, page, itemsPerPage)
+        res.json(tickets);
     } catch (error) {
         console.log(error)
         res.sendStatus(500)
     }
 });
-router.post('/time', async (req, res) => {
+router.post('/time/:page/:itemsPerPage', async (req, res) => {
     try {
         const { from, to } = req.body
-        let products = await filterByTime(from, to)
+        const { page, itemsPerPage } = req.params
+        let products = await filterByTime(from, to, page, itemsPerPage)
         res.json(products);
     } catch (error) {
         console.log(error)
-
         res.sendStatus(500)
     }
 });
